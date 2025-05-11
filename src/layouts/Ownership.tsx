@@ -6,13 +6,13 @@ import '../filesUploader.sass';
 import OwnershipAsset from "../assets/img/ownership.png";
 
 // Services
-import '../../service/IpfsService.ts';
-import { ipfsService } from "../../service/IpfsService.ts";
+import '../services/IpfsService.ts';
+import { ipfsService } from "../services/IpfsService.ts";
+import { DocumentContractService } from "../services/DocumentContractService.ts"
 
 interface UserFile {
   name: string;
   ipfsHash: string;
-
 }
 
 interface OwnershipState {
@@ -22,8 +22,13 @@ interface OwnershipState {
 
 class Ownership extends Component<{}, OwnershipState> {
 
+  private contract: DocumentContractService;
+
   constructor(props: {}) {
     super(props);
+
+    this.contract = new DocumentContractService();
+
     this.state = {
       activeAccount: 'Anonymous',
       userFiles: {
@@ -40,6 +45,12 @@ class Ownership extends Component<{}, OwnershipState> {
       const fileName = file.name;
       const ipfsHash = await ipfsService.getIpfsHash(file);
 
+      await this.contract.connectWallet();
+      await this.contract.uploadDocument(ipfsHash);
+
+      this.verifyDocument(ipfsHash);
+      this.verifyDocument("Test");
+
       this.setState({
         userFiles: {
           name: fileName,
@@ -48,6 +59,13 @@ class Ownership extends Component<{}, OwnershipState> {
       });
     }
   };
+
+  async verifyDocument(ipfsHash: string) {
+    const isVerifiedDocument: Boolean = await this.contract.verifyDocument(ipfsHash);
+    const verifiedText: string = isVerifiedDocument ? "verified" : "unverified";
+
+    console.log(`${ipfsHash} is ${verifiedText}`);
+  }
 
   render() {
     return (
@@ -66,8 +84,8 @@ class Ownership extends Component<{}, OwnershipState> {
               <p className="lead text-center">
                 Check for file ownership and list your files.<br />
                 <span className="fs-6">
-                  <span className="fs-6 fw-bold">NOTE:</span> In 
-                  <span className="fs-6 fst-italic fw-bold"> Check File Ownership </span> 
+                  <span className="fs-6 fw-bold">NOTE:</span> In
+                  <span className="fs-6 fst-italic fw-bold"> Check File Ownership </span>
                   section, you can try to upload a file and we will match the hash with all the files stored on our IPFS.
                 </span>
               </p>
@@ -84,10 +102,10 @@ class Ownership extends Component<{}, OwnershipState> {
               <h3>Live Transaction Log</h3>
               <table className="table table-striped table-hover">
                 <thead>
-                <tr>
-                  <th scope="col" width="175">Property</th>
-                  <th scope="col">Value</th>
-                </tr>
+                  <tr>
+                    <th scope="col" width="175">Property</th>
+                    <th scope="col">Value</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
@@ -107,10 +125,10 @@ class Ownership extends Component<{}, OwnershipState> {
             <div className="pb-3">
               <form name="checkOwnershipForm">
                 <div className="form-group files row mx-1">
-                  <input className="form-control" id="formFile" type="file" onChange={this.handleFileUpload} required/>
+                  <input className="form-control" id="formFile" type="file" onChange={this.handleFileUpload} required />
                 </div>
                 <div className="row mx-5 py-3">
-                  <button type="submit" className="btn btn-outline-primary col-6 mx-auto">Upload</button>
+                  <button type="button" className="btn btn-outline-primary col-6 mx-auto">Upload</button>
                 </div>
               </form>
             </div>
