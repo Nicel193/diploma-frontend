@@ -54,7 +54,7 @@ class Ownership extends Component<{}, OwnershipState> {
     }
   };
 
-  async uploadFile() {
+  uploadFile = async () =>  {
     const ipfsHash: string = this.state.userFile.ipfsHash;
 
     if (!ipfsHash) return;
