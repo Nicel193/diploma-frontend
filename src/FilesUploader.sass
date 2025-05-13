@@ -1,7 +1,7 @@
 .files
   position: relative
 
-  input
+  input[type="file"]
     outline: 2px dashed #92b0b3
     outline-offset: -10px
     -webkit-transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear
@@ -10,6 +10,16 @@
     text-align: center !important
     margin: 0
     width: 100% !important
+    appearance: none
+    -webkit-appearance: none
+    cursor: pointer
+    color: transparent
+
+    &::-webkit-file-upload-button
+      visibility: hidden
+
+    &::file-selector-button
+      visibility: hidden
 
     &:focus
       outline: 2px dashed #92b0b3
@@ -41,13 +51,25 @@
     width: 100%
     right: 0
     height: 57px
-    content: " or drag it here. "
+    content: "Press or drag file here."
     display: block
     margin: 0 auto
-    color: #2ea591
+    color: #92b0b3
     font-weight: 600
     text-transform: capitalize
     text-align: center
+
+  .upload-icon
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 64px
+    height: 64px
+    opacity: 0.6
+    z-index: 1
+    pointer-events: none
+    color: #92b0b3
 
 .color
   input

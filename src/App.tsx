@@ -1,9 +1,9 @@
-import Ownership from './layouts/Ownership.tsx'
+import UploadFile from './layouts/UploadFile.tsx'
 
 function App() {
   return (
     <>
-      <Ownership />
+      <UploadFile />
     </>
   )
 }
