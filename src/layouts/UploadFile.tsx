@@ -10,6 +10,7 @@ import { FaFileUpload } from "react-icons/fa";
 import '../services/IpfsService.ts';
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts"
+import Header from "./Header.tsx";
 
 interface UserFile {
   name: string;
@@ -71,81 +72,83 @@ class Ownership extends Component<{}, OwnershipState> {
 
   render() {
     return (
-      <section id="Ownership" className="p-5">
-        <div className="container">
-          <div className="justify-content-between">
-            <div className="row">
+      <>
+        <Header />
+        <section id="Ownership" className="p-5">
+          <div className="container">
+            <div className="justify-content-between">
+              <div className="row">
 
-              <div className="col-md-6">
+                <div className="col-md-6">
 
-                {/* Check File Ownership */}
-                <h3>File Uploader</h3>
-                <div className="pb-3">
-                  <form name="checkOwnershipForm">
-                    <div className="form-group files row mx-1">
-                      <input
-                        className="form-control"
-                        id="formFile"
-                        type="file"
-                        required
-                        onChange={this.handleFileUpload} />
-                      <FaFileUpload className="upload-icon" />
-                    </div>
-                    <div className="row mx-5 py-3">
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary col-6 mx-auto"
-                        onClick={this.uploadFile}>Upload</button>
-                    </div>
-                  </form>
+                  {/* Check File Ownership */}
+                  <h3>File Uploader</h3>
+                  <div className="pb-3">
+                    <form name="checkOwnershipForm">
+                      <div className="form-group files row mx-1">
+                        <input
+                          className="form-control"
+                          id="formFile"
+                          type="file"
+                          required
+                          onChange={this.handleFileUpload} />
+                        <FaFileUpload className="upload-icon" />
+                      </div>
+                      <div className="row mx-5 py-3">
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary col-6 mx-auto"
+                          onClick={this.uploadFile}>Upload</button>
+                      </div>
+                    </form>
+                  </div>
+
+                  {/* Live Transaction Log*/}
+                  <div className="pb-3">
+                    <h3>File Info</h3>
+                    <table className="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Property</th>
+                          <th scope="col">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>File Name</td>
+                          <td className="text-break">{this.state.userFile.name}</td>
+                        </tr>
+                        <tr>
+                          <td>IPFS Hash</td>
+                          <td className="text-break">{this.state.userFile.ipfsHash}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-                {/* Live Transaction Log*/}
-                <div className="pb-3">
-                  <h3>File Info</h3>
-                  <table className="table table-striped table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">Property</th>
-                        <th scope="col">Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>File Name</td>
-                        <td className="text-break">{this.state.userFile.name}</td>
-                      </tr>
-                      <tr>
-                        <td>IPFS Hash</td>
-                        <td className="text-break">{this.state.userFile.ipfsHash}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div className="col-md-6 d-flex flex-column align-items-center justify-content-center text-center">
+                  <img
+                    src={OwnershipAsset}
+                    alt="Ownership Visual"
+                    className="img-fluid rounded shadow-sm mb-3"
+                  />
+
+                  <div className="px-3 pt-3 d-flex align-items-center justify-content-center">
+                    <p className="lead text-center">
+                      <span className="fs-6">
+                        <span className="fs-6 fw-bold">NOTE:</span> In the
+                        <span className="fs-6 fst-italic fw-bold">"File Uploader"</span> section, you can upload a file to generate its hash and store it on IPFS for ownership verification.
+                      </span>
+                    </p>
+                  </div>
                 </div>
+
               </div>
-
-              <div className="col-md-6 d-flex flex-column align-items-center justify-content-center text-center">
-                <img
-                  src={OwnershipAsset}
-                  alt="Ownership Visual"
-                  className="img-fluid rounded shadow-sm mb-3"
-                />
-
-                <div className="px-3 pt-3 d-flex align-items-center justify-content-center">
-                  <p className="lead text-center">
-                    <span className="fs-6">
-                      <span className="fs-6 fw-bold">NOTE:</span> In
-                      <span className="fs-6 fst-italic fw-bold"> Check File Ownership </span>
-                      section, you can try to upload a file and we will match the hash with all the files stored on our IPFS.
-                    </span>
-                  </p>
-                </div>
-              </div>
-
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </>
     );
   }
 }
