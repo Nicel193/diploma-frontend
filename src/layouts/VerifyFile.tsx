@@ -1,13 +1,12 @@
-import React, { useState, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 // UI
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../filesUploader.sass';
-import OwnershipAsset from "../../public/UploadDocument.jpg";
+import ValidateDocument from "../../public/ValidateDocument.jpg";
 import { FaFileUpload } from "react-icons/fa";
 
 // Services
-import '../services/IpfsService.ts';
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts";
 import Header from "./Header.tsx";
@@ -18,39 +17,34 @@ interface UserFile {
 }
 
 export default function Ownership() {
+  const [hash, setHash] = useState<string | null>(null);
   const [userFile, setUserFile] = useState<UserFile>({
     name: '',
-    ipfsHash: ''
+    ipfsHash: '',
   });
 
-  const contractRef = useRef(new DocumentContractService());
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const hashParam = params.get('hash');
 
-  async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    setHash(hashParam);
+  }, []);
+
+  const contract = new DocumentContractService();
+
+  const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const fileName = file.name;
       const ipfsHash = await ipfsService.getIpfsHash(file);
-
-      setUserFile({
-        name: fileName,
-        ipfsHash: ipfsHash,
-      });
+      setUserFile({ name: file.name, ipfsHash });
     }
-  }
+  }, []);
 
-  async function uploadFile() {
-    const ipfsHash = userFile.ipfsHash;
-    if (!ipfsHash) return;
-
-    await contractRef.current.connectWallet();
-    await contractRef.current.uploadDocument(ipfsHash);
-  }
-
-  async function verifyDocument(ipfsHash: string) {
-    const isVerifiedDocument = await contractRef.current.verifyDocument(ipfsHash);
-    const verifiedText = isVerifiedDocument ? "verified" : "unverified";
-    console.log(`${ipfsHash} is ${verifiedText}`);
-  }
+  const verifyDocument = useCallback(async () => {
+    const isVerified = await contract.verifyDocument(userFile.ipfsHash);
+    const verifiedText = isVerified ? "verified" : "unverified";
+    console.log(`${userFile.ipfsHash} is ${verifiedText}`);
+  }, [userFile.ipfsHash]);
 
   return (
     <>
@@ -61,8 +55,7 @@ export default function Ownership() {
             <div className="row">
 
               <div className="col-md-6">
-                {/* File Uploader */}
-                <h3>File Uploader</h3>
+                <h3>Verify Document</h3>
                 <div className="pb-3">
                   <form name="checkOwnershipForm">
                     <div className="form-group files row mx-1">
@@ -79,15 +72,14 @@ export default function Ownership() {
                       <button
                         type="button"
                         className="btn btn-outline-primary col-6 mx-auto"
-                        onClick={uploadFile}
+                        onClick={verifyDocument}
                       >
-                        Upload
+                        Verify
                       </button>
                     </div>
                   </form>
                 </div>
 
-                {/* File Info */}
                 <div className="pb-3">
                   <h3>File Info</h3>
                   <table className="table table-striped table-hover">
@@ -113,7 +105,7 @@ export default function Ownership() {
 
               <div className="col-md-6 d-flex flex-column align-items-center justify-content-center text-center">
                 <img
-                  src={OwnershipAsset}
+                  src={ValidateDocument}
                   alt="Ownership Visual"
                   className="img-fluid"
                 />
@@ -121,8 +113,8 @@ export default function Ownership() {
                 <div className="px-3 pt-3 d-flex align-items-center justify-content-center">
                   <p className="lead text-center">
                     <span className="fs-6">
-                      <span className="fs-6 fw-bold">NOTE:</span> In the
-                      <span className="fs-6 fst-italic fw-bold">"File Uploader"</span> section, you can upload a file to generate its hash and store it on IPFS for ownership verification.
+                      <span className="fs-6 fw-bold">NOTE:</span> Use the
+                      <span className="fs-6 fst-italic fw-bold">"Verify Document"</span> feature to upload a file and check if it matches a previously registered hash on IPFS. This helps confirm the document's authenticity and ensures it hasn't been altered.
                     </span>
                   </p>
                 </div>
