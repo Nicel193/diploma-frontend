@@ -6,11 +6,16 @@ const Header = () => {
       <div className="fs-4 fw-bold">DocuFlow</div>
       <div className="d-flex justify-content-center align-items-center">
         <img
-          src="https://www.svgrepo.com/show/382106/male-avatar-boy-face-man-user-9.svg"
+          src="https://boxicons.com/_next/image?url=%2Fglobe.png&w=640&q=75"
           alt="User"
-          className="rounded-circle"
+          className="rounded-circle shadow-effect"
           width="40"
           height="40"
+          style={{
+            border: '0',
+            outline: 'none',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+          }}
         />
       </div>
     </header>
