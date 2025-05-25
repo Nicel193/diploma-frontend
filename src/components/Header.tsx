@@ -6,7 +6,7 @@ const Header = () => {
       <div className="fs-4 fw-bold">DocuFlow</div>
       <div className="d-flex justify-content-center align-items-center">
         <img
-          src="https://boxicons.com/_next/image?url=%2Fglobe.png&w=640&q=75"
+          src="https://cdn-icons-png.flaticon.com/512/2240/2240692.png"
           alt="User"
           className="rounded-circle shadow-effect"
           width="40"

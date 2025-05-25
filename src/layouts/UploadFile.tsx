@@ -10,7 +10,7 @@ import { FaFileUpload } from "react-icons/fa";
 import '../services/IpfsService.ts';
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts";
-import Header from "./Header.tsx";
+import Header from "../components/Header.tsx";
 
 interface UserFile {
   name: string;

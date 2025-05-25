@@ -1,0 +1,172 @@
+*
+    box-sizing: border-box
+
+.auth-style
+    height: 100vh
+    display: flex
+    align-items: center
+    justify-content: center
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center
+
+    .container
+        position: relative
+        max-width: 430px
+        width: 100%
+        background: #fafdfd
+        border-radius: 10px
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1)
+        overflow: hidden
+        margin: 0 20px
+
+    .title
+        color: #5e7fe0
+
+    .title-line
+        width: 50px
+        height: 5px
+        background: #505f98
+        margin-top: 10px
+
+    input
+        background-color: #fafdfd
+        color: #091133
+
+    &::placeholder
+        color: rgba(80, 95, 152, 0.35)
+
+    .container .forms
+        display: flex
+        align-items: center
+        height: 240px
+        width: 200%
+        transition: height 0.2s ease
+
+    .container .form
+        width: 50%
+        padding: 30px
+        background-color: #fafdfd
+        transition: margin-left 0.18s ease
+
+    .container.active .login
+        margin-left: -50%
+        opacity: 0
+        transition: margin-left 0.18s ease, opacity 0.15s ease
+
+    .container .signup
+        opacity: 0
+        transition: opacity 0.09s ease
+
+    .container.active .signup
+        opacity: 1
+        transition: opacity 0.2s ease
+
+    .container.active .forms
+        height: 450px
+
+    .container .form .title
+        position: relative
+        font-size: 27px
+        font-weight: 600
+
+    .form .input-field
+        position: relative
+        height: 50px
+        width: 100%
+        margin-top: 30px
+
+    .input-field input
+        position: absolute
+        height: 100%
+        width: 100%
+        padding: 0 35px
+        border: none
+        outline: none
+        font-size: 18px
+        border-bottom: 2px solid #d1dbe4
+        border-top: 2px solid transparent
+        transition: all 0.2s ease
+
+    .input-field
+        position: relative
+        display: flex
+        align-items: center
+
+    .input-field .uil
+        position: absolute
+        left: 8px
+        color: #505f98
+
+    .input-field input:is(:focus, :valid)
+        border-bottom-color: #091133
+
+    .input-field i
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        color: #505f98
+        font-size: 23px
+        transition: all 0.2s ease
+
+    .input-field input:is(:focus, :valid) ~ i
+        color: #091133
+
+    .input-field .i
+        left: 0
+
+    .input-field i.showHidePw
+        right: 0
+        cursor: pointer
+        padding: 10px
+
+    .form .checkbox-text
+        display: flex
+        align-items: center
+        justify-content: space-between
+        margin-top: 20px
+
+    .checkbox-text .checkbox-content
+        display: flex
+        align-items: center
+
+    .checkbox-content input
+        margin-right: 10px
+        accent-color: #35458d
+
+    .form .text
+        color: #091133
+        font-size: 16px
+
+    .form a:hover
+        text-decoration: underline
+
+    .form .button
+        margin-top: 35px
+
+    .login-signup
+        margin-bottom: 30px
+        text-align: center
+
+    .login-with-metamask
+        display: flex
+        align-items: center
+        justify-content: center
+        gap: 10px
+        width: 100%
+        padding: 12px 20px
+        background-color: #5e7fe0
+        color: white
+        border: none
+        border-radius: 6px
+        font-size: 20px
+        font-weight: 500
+        cursor: pointer
+        transition: background-color 0.3s ease
+
+        &:hover
+            background-color: #8c8aff
+
+    .metamask-icon
+        width: 25px
+        height: 25px

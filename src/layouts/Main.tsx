@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './MainPage.sass';
-import Header from "./Header.tsx";
+import './Main.sass';
+import Header from "../components/Header.tsx";
 
-// Import your images (replace with actual image paths)
+// Images
 import diningImage from '../../public/UploadDocument.jpg';
 import livingImage from '../../public/ValidateDocument.jpg';
 
