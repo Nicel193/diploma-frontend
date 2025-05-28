@@ -1,0 +1,44 @@
+.search-container
+    display: flex
+    justify-content: center
+    padding: 20px
+    width: 100%
+    max-width: 600px
+    margin: 0 auto
+
+.search-form
+    display: flex
+    width: 100%
+    border: 1px solid #dfe1e5
+    border-radius: 24px
+    overflow: hidden
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+    transition: all 0.3s ease
+
+    &:hover
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+
+    .search-input
+        flex-grow: 1
+        padding: 12px 20px
+        border: none
+        outline: none
+        font-size: 16px
+
+    &::placeholder
+        color: #9aa0a6
+
+    .search-button
+        padding: 0 20px
+        border: none
+        background-color: #5e7fe0
+        color: #ffffff
+        font-weight: 500
+        cursor: pointer
+        transition: background-color 0.3s
+
+    &:hover
+        background-color: #f1f3f4
+
+    &:active
+        background-color: #e8eaed

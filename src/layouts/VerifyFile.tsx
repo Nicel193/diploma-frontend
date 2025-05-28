@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 // UI
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../filesUploader.sass';
+import './SearchBar.sass'
 import ValidateDocument from "../../public/ValidateDocument.jpg";
 import { FaFileUpload } from "react-icons/fa";
 
@@ -10,6 +11,7 @@ import { FaFileUpload } from "react-icons/fa";
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts";
 import Header from "../components/Header.tsx";
+import { id } from "ethers";
 
 interface UserFile {
   name: string;
@@ -17,6 +19,7 @@ interface UserFile {
 }
 
 export default function Ownership() {
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [hash, setHash] = useState<string | null>(null);
   const [userFile, setUserFile] = useState<UserFile>({
     name: '',
@@ -28,6 +31,10 @@ export default function Ownership() {
     const hashParam = params.get('hash');
 
     setHash(hashParam);
+
+    if (hashParam != null) {
+      setSearchQuery(hashParam);
+    }
   }, []);
 
   const contract = new DocumentContractService();
@@ -46,11 +53,32 @@ export default function Ownership() {
     console.log(`${userFile.ipfsHash} is ${verifiedText}`);
   }, [userFile.ipfsHash]);
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Searching for:', searchQuery);
+  };
+
   return (
     <>
       <Header />
       <section id="Ownership" className="p-5">
         <div className="container">
+          <div className="search-container">
+            <form onSubmit={handleSearch} className="search-form">
+              <input
+                type="text"
+                placeholder="Search document by hash..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <button type="submit" className="search-button">
+                Search →
+              </button>
+            </form>
+          </div>
+
+          <hr className="my-4" />
           <div className="justify-content-between">
             <div className="row">
 
@@ -68,7 +96,13 @@ export default function Ownership() {
                       />
                       <FaFileUpload className="upload-icon" />
                     </div>
-                    <div className="row mx-5 py-3">
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary col-6 mx-auto me-3"
+                      >
+                        Download Source
+                      </button>
                       <button
                         type="button"
                         className="btn btn-outline-primary col-6 mx-auto"
@@ -81,7 +115,28 @@ export default function Ownership() {
                 </div>
 
                 <div className="pb-3">
-                  <h3>File Info</h3>
+                  <h3>Source Document Info</h3>
+                  <table className="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Property</th>
+                        <th scope="col">Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>File Name</td>
+                        <td className="text-break">{userFile.name}</td>
+                      </tr>
+                      <tr>
+                        <td>IPFS Hash</td>
+                        <td className="text-break">{userFile.ipfsHash}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <br />
+                  <h3>Uploaded Document Info</h3>
                   <table className="table table-striped table-hover">
                     <thead>
                       <tr>
