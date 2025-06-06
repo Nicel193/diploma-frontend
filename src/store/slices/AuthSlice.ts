@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postSignup } from "../../services/api/postSignup";
+import { postSignup } from "../../services/api/PostSignup";
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Credential } from "../../models/Credential";
