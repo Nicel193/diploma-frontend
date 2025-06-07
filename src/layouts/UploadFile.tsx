@@ -109,6 +109,21 @@ export default function Ownership() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Share */}
+                <div className="mt-4">
+                  <h4>Share with others</h4>
+                  <div className="input-group mb-3">
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Enter email addresses"
+                      aria-label="Recipient emails"
+                      multiple
+                    />
+                  </div>
+                  <small className="text-muted">You can enter multiple email addresses separated by commas</small>
+                </div>
               </div>
 
               <div className="col-md-6 d-flex flex-column align-items-center justify-content-center text-center">

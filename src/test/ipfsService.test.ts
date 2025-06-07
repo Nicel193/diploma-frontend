@@ -5,7 +5,7 @@ describe('IpfsService', () => {
     const fileContent = 'Test content for IPFS';
     const mockHash = 'QmV6wv18jLXLHtLEPp4ViGXSNZohVjr4jQ88CYt89W5Hhs';
 
-    const file = new File([fileContent], '../../public/Logo.png', { type: 'image/png' });
+    const file = new File([fileContent], 'test.txt', { type: 'text/plain' });
 
     const result = await ipfsService.getIpfsHash(file);
 
