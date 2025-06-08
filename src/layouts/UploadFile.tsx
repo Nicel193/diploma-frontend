@@ -5,12 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../filesUploader.sass';
 import OwnershipAsset from "../../public/UploadDocument.jpg";
 import { FaFileUpload } from "react-icons/fa";
+import Header from "../components/Header.tsx";
+import ShareFileModal from "../components/ShareFileModal.tsx"
 
 // Services
 import '../services/IpfsService.ts';
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts";
-import Header from "../components/Header.tsx";
+
+import { siteUrl } from "../config.ts"
 
 interface UserFile {
   name: string;
@@ -18,10 +21,8 @@ interface UserFile {
 }
 
 export default function Ownership() {
-  const [userFile, setUserFile] = useState<UserFile>({
-    name: '',
-    ipfsHash: ''
-  });
+  const [shareFileVisibility, setShareFileVisibility] = useState<boolean>(false);
+  const [userFile, setUserFile] = useState<UserFile>({ name: '', ipfsHash: '' });
 
   const contractRef = useRef(new DocumentContractService());
 
@@ -40,9 +41,13 @@ export default function Ownership() {
 
   async function uploadFile() {
     const ipfsHash = userFile.ipfsHash;
+
     if (!ipfsHash) return;
 
     await contractRef.current.connectWallet();
+
+    setShareFileVisibility(true);
+
     await contractRef.current.uploadDocument(ipfsHash);
   }
 
@@ -55,6 +60,12 @@ export default function Ownership() {
   return (
     <>
       <Header />
+      <ShareFileModal
+        fileUrl={`${siteUrl}/verify?hash=${userFile.ipfsHash}`}
+        show={shareFileVisibility}
+        onHide={() => setShareFileVisibility(false)}
+      />
+
       <section id="Ownership" className="p-5">
         <div className="container">
           <div className="justify-content-between">

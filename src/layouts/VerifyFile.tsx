@@ -10,8 +10,15 @@ import { FaFileUpload } from "react-icons/fa";
 // Services
 import { ipfsService } from "../services/IpfsService.ts";
 import { DocumentContractService } from "../services/DocumentContractService.ts";
+
+import NotifyModal from "../components/NotifyModal.tsx";
 import Header from "../components/Header.tsx";
-import { id } from "ethers";
+
+interface NotifyState {
+  visible: boolean;
+  message: string;
+  isError: boolean;
+}
 
 interface UserFile {
   name: string;
@@ -19,8 +26,16 @@ interface UserFile {
 }
 
 export default function Ownership() {
+  const contract = new DocumentContractService();
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [hash, setHash] = useState<string | null>(null);
+
+  const [notify, setNotify] = useState<NotifyState>({
+    visible: false,
+    message: '',
+    isError: false,
+  });
   const [userFile, setUserFile] = useState<UserFile>({
     name: '',
     ipfsHash: '',
@@ -37,8 +52,6 @@ export default function Ownership() {
     }
   }, []);
 
-  const contract = new DocumentContractService();
-
   const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -47,20 +60,38 @@ export default function Ownership() {
     }
   }, []);
 
-  const verifyDocument = useCallback(async () => {
-    const isVerified = await contract.verifyDocument(userFile.ipfsHash);
+  async function verifyFile() {
+    const isVerified = false;
+    //const isVerified = await contract.verifyDocument(userFile.ipfsHash);
     const verifiedText = isVerified ? "verified" : "unverified";
-    console.log(`${userFile.ipfsHash} is ${verifiedText}`);
-  }, [userFile.ipfsHash]);
+    const message = `${userFile.ipfsHash} is ${verifiedText}`;
+
+    showNotifyModal(message, !isVerified);
+  }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Searching for:', searchQuery);
   };
 
+  const showNotifyModal = (message: string, isError: boolean) => {
+    setNotify({
+      visible: true,
+      message,
+      isError,
+    });
+  }
+
   return (
     <>
       <Header />
+      <NotifyModal
+        message={notify.message}
+        show={notify.visible}
+        isError={notify.isError}
+        onHide={() => setNotify(prev => ({ ...prev, visible: false }))}
+      />
+
       <section id="Ownership" className="p-5">
         <div className="container">
           <div className="search-container">
@@ -106,7 +137,7 @@ export default function Ownership() {
                       <button
                         type="button"
                         className="btn btn-outline-primary col-6 mx-auto"
-                        onClick={verifyDocument}
+                        onClick={verifyFile}
                       >
                         Verify
                       </button>
