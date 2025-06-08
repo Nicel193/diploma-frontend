@@ -61,7 +61,7 @@ export default function Ownership() {
   }, []);
 
   async function verifyFile() {
-    const isVerified = false;
+    const isVerified = true;
     //const isVerified = await contract.verifyDocument(userFile.ipfsHash);
     const verifiedText = isVerified ? "verified" : "unverified";
     const message = `${userFile.ipfsHash} is ${verifiedText}`;
